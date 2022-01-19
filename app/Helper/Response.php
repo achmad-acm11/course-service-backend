@@ -39,4 +39,30 @@ class Response
             "data" => $data
         ];
     }
+    static public function apiResponseConflict($message)
+    {
+        return [
+            "meta" => [
+                "message" => "Conflict",
+                "status" => "error",
+                "code" => 409
+            ],
+            "data" => [
+                "message" => $message
+            ]
+        ];
+    }
+    static public function apiResponseMethodNotAllowed($message)
+    {
+        return [
+            "meta" => [
+                "message" => "Method Not Allowed",
+                "status" => "error",
+                "code" => 405
+            ],
+            "data" => [
+                "message" => $message
+            ]
+        ];
+    }
 }

@@ -11,9 +11,9 @@ class Course extends Model
 
     protected $fillable = ["name", "certificate", "thumbnail", "type", "status", "price", "level", "mentor_id", "description"];
 
-    protected $cast = [
-        "created_at" => "timestamp:Y-m-d H:m:s",
-        "updated_at" => "timestamp:Y-m-d H:m:s"
+    protected $casts = [
+        "created_at" => "datetime:Y-m-d H:m:s",
+        "updated_at" => "datetime:Y-m-d H:m:s"
     ];
 
     public function mentor()

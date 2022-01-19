@@ -11,7 +11,7 @@ class Mentor extends Model
 
     protected $fillable = ['name', 'profession', 'email', 'profile'];
     
-    protected $cast = [
+    protected $casts = [
         "created_at" => "timestamp:Y-m-d H:m:s",
         "update_at" => "timestamp:Y-m-d H:m:s"
     ];
