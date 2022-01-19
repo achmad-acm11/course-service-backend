@@ -6,6 +6,7 @@ use App\Http\Controllers\ImageCourseController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\MyCourseController;
+use App\Http\Controllers\ReviewController;
 use App\Models\ImageCourse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -52,3 +53,7 @@ Route::delete('image-course/{id}', [ImageCourseController::class, "destroy"]);
 Route::get("my-course", [MyCourseController::class, "index"]);
 Route::post("my-course", [MyCourseController::class, "index"]);
 Route::post("my-course/premium", [MyCourseController::class, "createPremiumAccess"]);
+
+Route::post("review", [ReviewController::class, "store"]);
+Route::put('review/{id}', [ReviewController::class, "update"]);
+Route::delete('review/{id}', [ReviewController::class, "destroy"]);
