@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\MentorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,3 +21,10 @@ Route::get('mentor/{id}', [MentorController::class, "show"]);
 Route::post('mentor', [MentorController::class, "store"]);
 Route::put('mentor/{id}', [MentorController::class, "update"]);
 Route::delete('mentor/{id}', [MentorController::class, "destroy"]);
+
+
+Route::get('course', [CourseController::class, "index"]);
+Route::post('course', [CourseController::class, "store"]);
+Route::get('course/{id}', [CourseController::class, "show"]);
+Route::put('course/{id}', [CourseController::class, "update"]);
+Route::delete('course/{id}', [CourseController::class, "destroy"]);

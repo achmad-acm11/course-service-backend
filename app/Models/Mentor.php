@@ -10,6 +10,7 @@ class Mentor extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'profession', 'email', 'profile'];
+    
     protected $cast = [
         "created_at" => "timestamp:Y-m-d H:m:s",
         "update_at" => "timestamp:Y-m-d H:m:s"
