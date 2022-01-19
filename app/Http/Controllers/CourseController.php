@@ -94,7 +94,7 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        $course = Course::with("mentor")->find($id);
+        $course = Course::with(["mentor", "chapter"])->find($id);
 
         if (!$course) {
             return response()->json(Response::apiResponseNotFound("Course not found"), 404);
