@@ -25,4 +25,9 @@ class Course extends Model
     {
         return $this->hasMany(Chapter::class, "course_id", "id");
     }
+
+    public function images()
+    {
+        return $this->hasMany(ImageCourse::class, "course_id", "id");
+    }
 }
