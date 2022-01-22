@@ -122,9 +122,11 @@ class LessonController extends Controller
             return response()->json(Response::apiResponseBadRequest($validator->errors()), 200);
         }
 
-        $chapter = Chapter::find($request->input("chapter_id"));
-        if (!$chapter) {
-            return response()->json(Response::apiResponseNotFound("Chapter not found"), 200);
+        if ($request->input("chapter_id")) {
+            $chapter = Chapter::find($request->input("chapter_id"));
+            if (!$chapter) {
+                return response()->json(Response::apiResponseNotFound("Chapter not found"), 200);
+            }
         }
 
         $lesson = Lesson::find($id);

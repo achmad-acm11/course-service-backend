@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helper\Response;
+use App\Helper\Url;
 use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
 use App\Models\Course;
@@ -12,26 +13,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ReviewController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -59,10 +40,10 @@ class ReviewController extends Controller
             return response()->json(Response::apiResponseNotFound("Course not found"), 404);
         }
 
-        $user = getUser($request->input("user_id"));
+        $user = Url::getUser($request->input("user_id"));
 
-        if ($user["status"] == 'error') {
-            return response()->json(Response::apiResponse($user["message"], $user["status"], $user["code"], ["message" => "Internal Server Error"]), 500);
+        if ($user["meta"]["status"] == 'error') {
+            return response()->json(Response::apiResponse($user["meta"]["message"], $user["meta"]["status"], $user["meta"]["code"], ["message" => "Internal Server Error"]), 500);
         }
 
         $isExistsReview = Review::where("user_id", "=", $request->input("user_id"))->where("course_id", "=", $request->input("course_id"))->exists();
@@ -74,28 +55,6 @@ class ReviewController extends Controller
         $review = Review::create($data);
 
         return response()->json(Response::apiResponse("Success add review", "success", 200, $review), 200);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Review  $review
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Review $review)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Review  $review
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Review $review)
-    {
-        //
     }
 
     /**
@@ -112,7 +71,7 @@ class ReviewController extends Controller
             "note" => "string"
         ];
 
-        $data = $request->all();
+        $data = $request->except('user_id', "course_id");
 
         $validator = Validator::make($data, $rules);
         if ($validator->fails()) {

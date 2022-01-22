@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helper\Response;
+use App\Helper\Url;
 use App\Http\Requests\StoreMyCourseRequest;
 use App\Http\Requests\UpdateMyCourseRequest;
 use App\Models\Course;
@@ -66,10 +67,10 @@ class MyCourseController extends Controller
             return response()->json(Response::apiResponseNotFound("Course not found"), 200);
         }
 
-        $user = getUser($request->input("user_id"));
+        $user = Url::getUser($request->input("user_id"));
 
-        if ($user["status"] == 'error') {
-            return response()->json(Response::apiResponse($user["message"], $user["status"], $user["code"], ["message" => "Internal Server Error"]), 500);
+        if ($user["meta"]["status"] == 'error') {
+            return response()->json(Response::apiResponse($user["meta"]["message"], $user["meta"]["status"], $user["meta"]["code"], ["message" => "Internal Server Error"]), 500);
         }
 
         $isExistCourse = MyCourse::where("user_id", "=", $request->input("user_id"))->where("course_id", "=", $request->input("course_id"))->exists();
@@ -78,14 +79,15 @@ class MyCourseController extends Controller
             return response()->json(Response::apiResponseConflict("user already take this course"), 409);
         }
 
-        if ($course->type === "premium") {
-            if ($course->price === 0) {
-                return response()->json(Response::apiResponseMethodNotAllowed("Price can't be 0"), 405);
-            }
-        } else {
-            $myCourse = MyCourse::create($data);
-            return response()->json(Response::apiResponse("Success add course", "success", 200, $myCourse), 200);
-        }
+        $myCourse = MyCourse::create($data);
+        return response()->json(Response::apiResponse("Success add course", "success", 200, $myCourse), 200);
+
+        // if ($course->type === "premium") {
+        //     if ($course->price === 0) {
+        //         return response()->json(Response::apiResponseMethodNotAllowed("Price can't be 0"), 405);
+        //     }
+        // } else {
+        // }
     }
 
     /**

@@ -117,11 +117,12 @@ class ChapterController extends Controller
         if ($validator->fails()) {
             return response()->json(Response::apiResponseBadRequest($validator->errors()), 400);
         }
+        if ($request->input("course_id")) {
+            $course = Course::find($request->input("course_id"));
 
-        $course = Course::find($request->input("course_id"));
-
-        if (!$course) {
-            return response()->json(Response::apiResponseNotFound("Course not found"), 404);
+            if (!$course) {
+                return response()->json(Response::apiResponseNotFound("Course not found"), 404);
+            }
         }
 
         $chapter = Chapter::find($id);
